@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 // import Dashboard from "./dashboard/page";
 
 function page() {
-  redirect("/signup");
+  redirect("/dashboard");
   return null;
 }
 
