@@ -1,0 +1,85 @@
+# -------------------------
+# Python / FastAPI / Backend
+# -------------------------
+
+# Byte-compiled
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+.env/
+.env.*  # ignore all env variants
+*.env
+
+# BUT do not ignore example env file
+!.env.example
+
+# Development settings
+.settings/
+.vscode/
+.idea/
+
+# Logs
+*.log
+logs/
+app.log
+
+# Cache
+.cache/
+pytest_cache/
+.mypy_cache/
+.dmypy.json
+pyrightconfig.json
+
+# Local DB / SQLite (if ever used)
+*.sqlite3
+*.db
+
+# -------------------------
+# Docker
+# -------------------------
+# Local volumes or temp data
+docker-data/
+docker-volume/
+*~
+
+
+# Ignore docker compose override files
+docker-compose.override.yml
+
+# -------------------------
+# Build / Dist
+# -------------------------
+build/
+dist/
+*.egg-info/
+*.egg
+.eggs/
+
+# -------------------------
+# Jupyter (if used for testing)
+# -------------------------
+.ipynb_checkpoints/
+
+# -------------------------
+# Misc
+# -------------------------
+.DS_Store
+Thumbs.db
+
+# Python tooling
+pip-wheel-metadata/
+
+# -------------------------
+# Qubic / Keys / Sensitive
+# -------------------------
+# These MUST NEVER be committed
+qubic_seed.txt
+*.key
+*.pem
+*.secrets
+secrets/
+keys/
+wallets/

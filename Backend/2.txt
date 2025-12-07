@@ -1,0 +1,8 @@
+fastapi
+uvicorn[standard]
+sqlalchemy
+psycopg2-binary   # PostgreSQL driver
+python-jose[cryptography]   # JWT
+passlib[bcrypt]   # password hashing
+pydantic
+email-validator

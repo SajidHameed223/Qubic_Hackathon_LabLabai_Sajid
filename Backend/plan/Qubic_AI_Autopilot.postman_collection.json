@@ -1,0 +1,1174 @@
+{
+    "info": {
+        "name": "Qubic AI Autopilot - Complete API",
+        "description": "Complete API collection for Qubic AI Autopilot with Virtual Wallet & Smart Approvals",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "variable": [
+        {
+            "key": "BASE_URL",
+            "value": "http://localhost:8000",
+            "type": "string"
+        },
+        {
+            "key": "TOKEN",
+            "value": "",
+            "type": "string"
+        }
+    ],
+    "item": [
+        {
+            "name": "🔐 Authentication",
+            "item": [
+                {
+                    "name": "Register User",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test(\"User registered successfully\", function () {",
+                                    "    pm.response.to.have.status(201);",
+                                    "});"
+                                ]
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"email\": \"alice@example.com\",\n  \"password\": \"securepass123\",\n  \"full_name\": \"Alice Johnson\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{BASE_URL}}/auth/register",
+                            "host": [
+                                "{{BASE_URL}}"
+                            ],
+                            "path": [
+                                "auth",
+                                "register"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Login",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "var jsonData = pm.response.json();",
+                                    "pm.environment.set(\"TOKEN\", jsonData.access_token);",
+                                    "pm.test(\"Login successful\", function () {",
+                                    "    pm.response.to.have.status(200);",
+                                    "    pm.expect(jsonData.access_token).to.be.a('string');",
+                                    "});"
+                                ]
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"email\": \"test@example.com\",\n  \"password\": \"testpass123\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{BASE_URL}}/auth/login",
+                            "host": [
+                                "{{BASE_URL}}"
+                            ],
+                            "path": [
+                                "auth",
+                                "login"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Current User",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{TOKEN}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{BASE_URL}}/auth/me",
+                            "host": [
+                                "{{BASE_URL}}"
+                            ],
+                            "path": [
+                                "auth",
+                                "me"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Preferences",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{TOKEN}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{BASE_URL}}/auth/preferences",
+                            "host": [
+                                "{{BASE_URL}}"
+                            ],
+                            "path": [
+                                "auth",
+                                "preferences"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Update Preferences",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{TOKEN}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"risk_tolerance\": \"low\",\n  \"fee_sensitivity\": \"very_sensitive\",\n  \"investment_goals\": [\"growth\", \"income\"],\n  \"min_balance_reserve\": 1000\n}"
+                        },
+                        "url": {
+                            "raw": "{{BASE_URL}}/auth/preferences",
+                            "host": [
+                                "{{BASE_URL}}"
+                            ],
+                            "path": [
+                                "auth",
+                                "preferences"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "💰 Virtual Wallet",
+            "item": [
+                {
+                    "name": "Get Wallet Info",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{TOKEN}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{BASE_URL}}/wallet/info",
+                            "host": [
+                                "{{BASE_URL}}"
+                            ],
+                            "path": [
+                                "wallet",
+                                "info"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Balance",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{TOKEN}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{BASE_URL}}/wallet/balance?asset=QUBIC",
+                            "host": [
+                                "{{BASE_URL}}"
+                            ],
+                            "path": [
+                                "wallet",
+                                "balance"
+                            ],
+                            "query": [
+                                {
+                                    "key": "asset",
+                                    "value": "QUBIC"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Initialize Deposit",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{TOKEN}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [],
+                        "url": {
+                            "raw": "{{BASE_URL}}/wallet/deposit/init",
+                            "host": [
+                                "{{BASE_URL}}"
+                            ],
+                            "path": [
+                                "wallet",
+                                "deposit",
+                                "init"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Confirm Deposit",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{TOKEN}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"tx_hash\": \"SIMULATED_TX_12345\",\n  \"amount\": 1000\n}"
+                        },
+                        "url": {
+                            "raw": "{{BASE_URL}}/wallet/deposit/confirm",
+                            "host": [
+                                "{{BASE_URL}}"
+                            ],
+                            "path": [
+                                "wallet",
+                                "deposit",
+                                "confirm"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Transaction History",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{TOKEN}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{BASE_URL}}/wallet/history?limit=50&offset=0",
+                            "host": [
+                                "{{BASE_URL}}"
+                            ],
+                            "path": [
+                                "wallet",
+                                "history"
+                            ],
+                            "query": [
+                                {
+                                    "key": "limit",
+                                    "value": "50"
+                                },
+                                {
+                                    "key": "offset",
+                                    "value": "0"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Withdraw",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{TOKEN}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"amount\": 100,\n  \"destination\": \"EXTERNAL_QUBIC_WALLET_ADDRESS\",\n  \"asset\": \"QUBIC\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{BASE_URL}}/wallet/withdraw",
+                            "host": [
+                                "{{BASE_URL}}"
+                            ],
+                            "path": [
+                                "wallet",
+                                "withdraw"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "✅ Smart Approvals",
+            "item": [
+                {
+                    "name": "Get Approval Settings",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{TOKEN}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{BASE_URL}}/approvals/settings",
+                            "host": [
+                                "{{BASE_URL}}"
+                            ],
+                            "path": [
+                                "approvals",
+                                "settings"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Update Approval Settings",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{TOKEN}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"auto_approve_threshold\": 200.0,\n  \"require_approval_for_withdrawals\": true,\n  \"require_approval_for_trades\": false,\n  \"require_approval_for_defi\": false,\n  \"notify_on_auto_approve\": true,\n  \"approval_timeout_hours\": 24\n}"
+                        },
+                        "url": {
+                            "raw": "{{BASE_URL}}/approvals/settings",
+                            "host": [
+                                "{{BASE_URL}}"
+                            ],
+                            "path": [
+                                "approvals",
+                                "settings"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Pending Approvals",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{TOKEN}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{BASE_URL}}/approvals/pending",
+                            "host": [
+                                "{{BASE_URL}}"
+                            ],
+                            "path": [
+                                "approvals",
+                                "pending"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Approve Transaction",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{TOKEN}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"note\": \"Looks good, approved\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{BASE_URL}}/approvals/approve/:approval_id",
+                            "host": [
+                                "{{BASE_URL}}"
+                            ],
+                            "path": [
+                                "approvals",
+                                "approve",
+                                ":approval_id"
+                            ],
+                            "variable": [
+                                {
+                                    "key": "approval_id",
+                                    "value": "paste-approval-id-here"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Reject Transaction",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{TOKEN}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"note\": \"Not right now\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{BASE_URL}}/approvals/reject/:approval_id",
+                            "host": [
+                                "{{BASE_URL}}"
+                            ],
+                            "path": [
+                                "approvals",
+                                "reject",
+                                ":approval_id"
+                            ],
+                            "variable": [
+                                {
+                                    "key": "approval_id",
+                                    "value": "paste-approval-id-here"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Approval History",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{TOKEN}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{BASE_URL}}/approvals/history?limit=50",
+                            "host": [
+                                "{{BASE_URL}}"
+                            ],
+                            "path": [
+                                "approvals",
+                                "history"
+                            ],
+                            "query": [
+                                {
+                                    "key": "limit",
+                                    "value": "50"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Check Approval Status",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{TOKEN}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{BASE_URL}}/approvals/check/:approval_id",
+                            "host": [
+                                "{{BASE_URL}}"
+                            ],
+                            "path": [
+                                "approvals",
+                                "check",
+                                ":approval_id"
+                            ],
+                            "variable": [
+                                {
+                                    "key": "approval_id",
+                                    "value": "paste-approval-id-here"
+                                }
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "🤖 AI Agent",
+            "item": [
+                {
+                    "name": "Run Task (Small - Auto Approved)",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{TOKEN}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"goal\": \"Stake 50 QUBIC\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{BASE_URL}}/agent/run",
+                            "host": [
+                                "{{BASE_URL}}"
+                            ],
+                            "path": [
+                                "agent",
+                                "run"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Run Task (Large - Needs Approval)",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{TOKEN}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"goal\": \"Swap 500 QUBIC to USDT\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{BASE_URL}}/agent/run",
+                            "host": [
+                                "{{BASE_URL}}"
+                            ],
+                            "path": [
+                                "agent",
+                                "run"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Execute Approved Task",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{TOKEN}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [],
+                        "url": {
+                            "raw": "{{BASE_URL}}/agent/execute-approved/:approval_id",
+                            "host": [
+                                "{{BASE_URL}}"
+                            ],
+                            "path": [
+                                "agent",
+                                "execute-approved",
+                                ":approval_id"
+                            ],
+                            "variable": [
+                                {
+                                    "key": "approval_id",
+                                    "value": "paste-approval-id-here"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Trigger Agent (Webhook)",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{TOKEN}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"goal\": \"Check my balance\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{BASE_URL}}/agent/trigger",
+                            "host": [
+                                "{{BASE_URL}}"
+                            ],
+                            "path": [
+                                "agent",
+                                "trigger"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "🧠 AI Advisor",
+            "item": [
+                {
+                    "name": "Ask Question",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{TOKEN}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"question\": \"What should I do with my current balance?\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{BASE_URL}}/advisor/ask",
+                            "host": [
+                                "{{BASE_URL}}"
+                            ],
+                            "path": [
+                                "advisor",
+                                "ask"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Quick Advice - Balance Check",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{TOKEN}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"scenario\": \"balance_check\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{BASE_URL}}/advisor/quick",
+                            "host": [
+                                "{{BASE_URL}}"
+                            ],
+                            "path": [
+                                "advisor",
+                                "quick"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Quick Advice - Weekly Summary",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{TOKEN}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"scenario\": \"weekly_summary\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{BASE_URL}}/advisor/quick",
+                            "host": [
+                                "{{BASE_URL}}"
+                            ],
+                            "path": [
+                                "advisor",
+                                "quick"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Suggestions",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{TOKEN}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{BASE_URL}}/advisor/suggestions",
+                            "host": [
+                                "{{BASE_URL}}"
+                            ],
+                            "path": [
+                                "advisor",
+                                "suggestions"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Status",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{TOKEN}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{BASE_URL}}/advisor/status",
+                            "host": [
+                                "{{BASE_URL}}"
+                            ],
+                            "path": [
+                                "advisor",
+                                "status"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "📋 Tasks",
+            "item": [
+                {
+                    "name": "Get All Tasks",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{TOKEN}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{BASE_URL}}/tasks?limit=50&offset=0",
+                            "host": [
+                                "{{BASE_URL}}"
+                            ],
+                            "path": [
+                                "tasks"
+                            ],
+                            "query": [
+                                {
+                                    "key": "limit",
+                                    "value": "50"
+                                },
+                                {
+                                    "key": "offset",
+                                    "value": "0"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Task by ID",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{TOKEN}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{BASE_URL}}/tasks/:task_id",
+                            "host": [
+                                "{{BASE_URL}}"
+                            ],
+                            "path": [
+                                "tasks",
+                                ":task_id"
+                            ],
+                            "variable": [
+                                {
+                                    "key": "task_id",
+                                    "value": "paste-task-id-here"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Delete Task",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{TOKEN}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                            "raw": "{{BASE_URL}}/tasks/:task_id",
+                            "host": [
+                                "{{BASE_URL}}"
+                            ],
+                            "path": [
+                                "tasks",
+                                ":task_id"
+                            ],
+                            "variable": [
+                                {
+                                    "key": "task_id",
+                                    "value": "paste-task-id-here"
+                                }
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "🛠️ Tools",
+            "item": [
+                {
+                    "name": "List All Tools",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{TOKEN}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{BASE_URL}}/tools/list",
+                            "host": [
+                                "{{BASE_URL}}"
+                            ],
+                            "path": [
+                                "tools",
+                                "list"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Tool Categories",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{TOKEN}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{BASE_URL}}/tools/categories",
+                            "host": [
+                                "{{BASE_URL}}"
+                            ],
+                            "path": [
+                                "tools",
+                                "categories"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Tool Stats",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{TOKEN}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{BASE_URL}}/tools/stats",
+                            "host": [
+                                "{{BASE_URL}}"
+                            ],
+                            "path": [
+                                "tools",
+                                "stats"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "🏥 Health",
+            "item": [
+                {
+                    "name": "Health Check",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{BASE_URL}}/health",
+                            "host": [
+                                "{{BASE_URL}}"
+                            ],
+                            "path": [
+                                "health"
+                            ]
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}
